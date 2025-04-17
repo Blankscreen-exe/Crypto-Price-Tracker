@@ -10,13 +10,13 @@ data ingestion failures in real time.
 
 ## 🚀 Features
 
-- ✅ **ETL pipeline** for Bitcoin price data (CoinGecko API)
-- 📊 **Flask dashboard** with real-time charting using Chart.js
-- 📉 **7-day moving average** and percent change calculations
-- 🧠 **Dead Letter Queue (DLQ)** for graceful error handling
-- 🔔 **PostgreSQL-based real-time queue** using `LISTEN/NOTIFY`
-- 🛠️ Modular structure (extract/transform/load/dashboard)
-- 🧪 Easily extendable for other coins, metrics, or APIs
+- **ETL pipeline** for Bitcoin price data (CoinGecko API)
+- **Flask dashboard** with real-time charting using Chart.js
+- **7-day moving average** and percent change calculations
+- **Dead Letter Queue (DLQ)** for graceful error handling
+- **PostgreSQL-based real-time queue** using `LISTEN/NOTIFY`
+- Modular structure (extract/transform/load/dashboard)
+- Easily extendable for other coins, metrics, or APIs
 
 ---
 
