@@ -1,0 +1,8 @@
+flask
+pandas
+requests
+sqlalchemy
+psycopg2-binary
+python-dotenv
+flask-cors
+gunicorn
