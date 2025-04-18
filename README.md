@@ -92,3 +92,6 @@ python dashboard/app.py
 
 4. Open `http://localhost:5000` for the dashboard or go to `http://localhost:5000/dlq` to view DLQ entries
 
+## Preview
+
+![dashboard](docs/assets/preview.png)
