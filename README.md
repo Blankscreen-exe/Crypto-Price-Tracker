@@ -95,3 +95,18 @@ python dashboard/app.py
 ## Preview
 
 ![dashboard](docs/assets/preview.png)
+
+## Docker Setup
+
+This project can be run using Docker Compose for easy setup and deployment.
+
+### Prerequisites
+- Docker
+- Docker Compose
+
+### Running with Docker Compose
+
+1. **Build and start all services**
+   ```bash
+   docker compose build
+   docker compose up -d
