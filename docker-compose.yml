@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres:14
+    container_name: crypto_tracker_db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=crypto_tracker
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  dlq-listener:
+    build: .
+    container_name: crypto_tracker_dlq
+    depends_on:
+      - database
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@database:5432/crypto_tracker
+    volumes:
+      - ./:/app
+    command: python dlq/listener.py
+    restart: unless-stopped
+
+  etl-pipeline:
+    build: .
+    container_name: crypto_tracker_etl
+    depends_on:
+      - database
+      - dlq-listener
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@database:5432/crypto_tracker
+    volumes:
+      - ./:/app
+    command: python run_pipeline.py
+    restart: unless-stopped
+
+  dashboard:
+    build: .
+    container_name: crypto_tracker_dashboard
+    depends_on:
+      - database
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@database:5432/crypto_tracker
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./:/app
+    command: python dashboard/app.py
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
