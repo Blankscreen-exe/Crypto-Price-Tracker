@@ -6,6 +6,10 @@ visual dashboard using Flask. The pipeline includes a robust **Dead Letter Queue
 mechanism powered by PostgreSQL's `LISTEN/NOTIFY` to handle and monitor 
 data ingestion failures in real time.
 
+## Preview
+
+![dashboard](docs/assets/preview.png)
+
 ---
 
 ## 🚀 Features
@@ -17,8 +21,6 @@ data ingestion failures in real time.
 - **PostgreSQL-based real-time queue** using `LISTEN/NOTIFY`
 - Modular structure (extract/transform/load/dashboard)
 - Easily extendable for other coins, metrics, or APIs
-
----
 
 ## 🗂️ Project Structure
 
@@ -35,8 +37,6 @@ crypto_etl/
 └── .env # Environment variables
 ```
 
----
-
 ## 🔧 Tech Stack
 
 | Layer       | Tools Used                   |
@@ -48,7 +48,6 @@ crypto_etl/
 | Charts      | Chart.js                      |
 | Real-time   | PostgreSQL LISTEN/NOTIFY      |
 
----
 
 ## 🛠️ Setup Instructions
 
@@ -74,39 +73,37 @@ crypto_etl/
 
 1. Run the real-time DLQ listener
 
-```bash
-python dlq/listener.py
-```
+  ```bash
+  python dlq/listener.py
+  ```
 
 2. Run the ETL pipeline
 
-```bash
-python run_pipeline.py
-```
+  ```bash
+  python run_pipeline.py
+  ```
 
 3. Start the dashboard
 
-```bash
-python dashboard/app.py
-```
+  ```bash
+  python dashboard/app.py
+  ```
 
 4. Open `http://localhost:5000` for the dashboard or go to `http://localhost:5000/dlq` to view DLQ entries
 
-## Preview
-
-![dashboard](docs/assets/preview.png)
-
 ## Docker Setup
-
-This project can be run using Docker Compose for easy setup and deployment.
-
-### Prerequisites
-- Docker
-- Docker Compose
 
 ### Running with Docker Compose
 
-1. **Build and start all services**
+1. Build and start all services
+
    ```bash
    docker compose build
    docker compose up -d
+   ```
+
+The sevices include
+   - Database (Postgres)
+   - DLQ Listener
+   - ETL pipeline
+   - Dashboard (Flask)
