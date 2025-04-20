@@ -19,7 +19,7 @@ def clean_price_payload(payload):
             timestamp = datetime.fromisoformat(payload["timestamp"])
         else:
             timestamp = payload["timestamp"]
-        iso_timestamp = timestamp.isoformat()
+            iso_timestamp = timestamp.strftime("%Y-%m-%d %H:%M:%S")
     except Exception as e:
         raise ValueError(f"Invalid timestamp format: {e}")
 
