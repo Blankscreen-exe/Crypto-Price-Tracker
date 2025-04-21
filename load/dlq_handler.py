@@ -1,21 +1,17 @@
-from sqlalchemy import create_engine, text
-from dotenv import load_dotenv
-import os
+from sqlalchemy import text
 import json
 
-load_dotenv()
-DATABASE_URL = os.getenv("DATABASE_URL")
-engine = create_engine(DATABASE_URL)
+from config import config
 
 
-def handle_dlq(payload, error_message):
+def handle_dlq(payload: dict, error_message: str):
     """
     Insert a failed payload into the DLQ table and send a NOTIFY event.
     """
     try:
         payload_json = json.dumps(payload)
 
-        with engine.begin() as conn:
+        with config.conf.ENGINE.begin() as conn:
             # Insert into DLQ table
             conn.execute(
                 text("""
