@@ -1,17 +1,13 @@
 import time
+from sqlalchemy import text
+
+from config import config
 from extract.fetch_coingecko import fetch_bitcoin_price
 from load.dlq_handler import handle_dlq
-from sqlalchemy import create_engine, text
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-DATABASE_URL = os.getenv("DATABASE_URL")
-engine = create_engine(DATABASE_URL)
 
 
 def insert_price_record(timestamp, price):
-    with engine.begin() as conn:
+    with config.conf.ENGINE.begin() as conn:
         conn.execute(
             text("""
                 INSERT INTO prices (timestamp, price)

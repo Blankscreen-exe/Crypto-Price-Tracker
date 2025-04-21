@@ -1,18 +1,13 @@
 import psycopg2
 import select
 import json
-from dotenv import load_dotenv
-import os
-from sqlalchemy import create_engine, text
+from sqlalchemy import text
 
-load_dotenv()
-
-DATABASE_URL = os.getenv("DATABASE_URL")
-engine = create_engine(DATABASE_URL)
+from config import config
 
 
-def insert_into_dlq(payload, error_message):
-    with engine.begin() as conn:
+def insert_into_dlq(payload: dict, error_message: str):
+    with config.conf.ENGINE.begin() as conn:
         conn.execute(
             text("""
                 INSERT INTO dlq (timestamp, payload, error_message)
@@ -22,14 +17,14 @@ def insert_into_dlq(payload, error_message):
         )
 
 
-def process_failed_event(payload):
+def process_failed_event(payload: dict):
     # Custom retry logic goes here — for now, just print
     print(f"Retrying payload: {payload}")
     # You can reprocess here, or move to archive, etc.
 
 
 def listen_for_dlq():
-    conn = psycopg2.connect(DATABASE_URL)
+    conn = psycopg2.connect(config.conf.DB_URL)
     conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
     cur = conn.cursor()
 

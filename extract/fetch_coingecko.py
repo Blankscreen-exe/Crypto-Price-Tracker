@@ -1,7 +1,7 @@
 import requests
 from datetime import datetime
 from pprint import pprint as pp
-from config import CRYPTO_API, CRYPTO_IDS, CRYPTO_VS_CURRENCY
+from config.config import CRYPTO_API, CRYPTO_IDS, CRYPTO_VS_CURRENCY
 
 def fetch_bitcoin_price():
     try:
@@ -17,7 +17,7 @@ def fetch_bitcoin_price():
         price = data[CRYPTO_IDS][CRYPTO_VS_CURRENCY]
 
         result = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(datetime.timezone.utc).isoformat(),
             "price": price
         }
 

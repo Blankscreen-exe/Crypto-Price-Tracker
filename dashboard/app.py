@@ -1,19 +1,15 @@
 from flask import Flask, render_template
-from sqlalchemy import create_engine, text
-from dotenv import load_dotenv
-import os
+from sqlalchemy import text
 import pandas as pd
 
-load_dotenv()
+from config import config
 
 app = Flask(__name__)
-DATABASE_URL = os.getenv("DATABASE_URL")
-engine = create_engine(DATABASE_URL)
 
 
 @app.route("/")
 def index():
-    with engine.connect() as conn:
+    with config.conf.ENGINE.connect() as conn:
         query = text("""
             SELECT timestamp, price
             FROM prices
@@ -39,7 +35,7 @@ def index():
 
 @app.route("/dlq")
 def dlq_view():
-    with engine.connect() as conn:
+    with config.conf.ENGINE.connect() as conn:
         query = text("""
             SELECT id, timestamp, payload, error_message
             FROM dlq
